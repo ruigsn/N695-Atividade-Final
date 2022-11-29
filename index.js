@@ -19,6 +19,15 @@ function checarCliente(req, res, next) {
   return next();
 }
 
+// Middleware para checar se existe cliente em um determinado indice
+function checarIndiceCliente(req, res, next) {
+  const cliente = clientes[req.params.index];
+  if(!cliente){
+    return res.status(400).json({ error: "Este cliente não existe" });
+  }
+
+  return next();
+}
 
 // Buscando clientes pelo nome
 server.get('/infosupri/cliente', (req, res)=> {
