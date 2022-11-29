@@ -9,13 +9,24 @@ server.use(express.json());
 const clientes = ['Artur', 'Maria', 'Renata', 'Beatriz', 'Jorge']; // Vetor de clientes para servir de exemplo na testagem da API no Postman ou Insomnia
 
 
+// Criando um middleware para checar se está sendo enviado pelo frontend o nome do cliente. Deverá ser acrescentado no post e no put, onde há esta requisição.
+
+function checarCliente(req, res, next) {
+  if (!req.body.name){
+    return res.status(400).json({ error: "Nome do cliente é obrigatório" });
+  }
+
+  return next();
+}
+
+
 // Buscando clientes pelo nome
-server.get('/cliente', (req, res)=> {
+server.get('/infosupri/cliente', (req, res)=> {
   return res.json(clientes);
 });
 
 // Buscando clientes pela posição no vetor (índice)
-server.get('/cliente/:index', (req, res) => {
+server.get('/infosupri/cliente/:index', (req, res) => {
   const { index } = req.params;
 
   return res.json(clientes[index]);
@@ -24,7 +35,7 @@ server.get('/cliente/:index', (req, res) => {
 
 
 //Criando um novo cliente
-server.post('/cliente', (req, res)=> {
+server.post('/infosupri/cliente', checarCliente, (req, res)=> {
   const { name } = req.body;
   clientes.push(name);
 
@@ -32,7 +43,7 @@ server.post('/cliente', (req, res)=> {
 });
 
 //Atualizando um cliente
-server.put('/cliente/:index', (req, res)=>{
+server.put('/infosupri/cliente/:index', checarCliente, (req, res)=>{
   const { index } = req.params;
   const { name } = req.body;
 
@@ -44,7 +55,7 @@ server.put('/cliente/:index', (req, res)=>{
 
 
 //Excluindo algum cliente
-server.delete('/cliente/:index', (req, res)=>{
+server.delete('/infosupri/cliente/:index', (req, res)=>{
   const { index } = req.params;
 
   clientes.splice(index, 1);
