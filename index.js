@@ -35,7 +35,7 @@ server.get('/infosupri/cliente', (req, res)=> {
 });
 
 // Buscando clientes pela posição no vetor (índice)
-server.get('/infosupri/cliente/:index', (req, res) => {
+server.get('/infosupri/cliente/:index', checarIndiceCliente, (req, res) => {
   const { index } = req.params;
 
   return res.json(clientes[index]);
@@ -52,7 +52,7 @@ server.post('/infosupri/cliente', checarCliente, (req, res)=> {
 });
 
 //Atualizando um cliente
-server.put('/infosupri/cliente/:index', checarCliente, (req, res)=>{
+server.put('/infosupri/cliente/:index', checarCliente, checarIndiceCliente, (req, res)=>{
   const { index } = req.params;
   const { name } = req.body;
 
