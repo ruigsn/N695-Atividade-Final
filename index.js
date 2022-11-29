@@ -64,7 +64,7 @@ server.put('/infosupri/cliente/:index', checarCliente, checarIndiceCliente, (req
 
 
 //Excluindo algum cliente
-server.delete('/infosupri/cliente/:index', (req, res)=>{
+server.delete('/infosupri/cliente/:index', checarIndiceCliente, (req, res)=>{
   const { index } = req.params;
 
   clientes.splice(index, 1);
